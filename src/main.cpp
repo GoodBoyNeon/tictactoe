@@ -5,8 +5,6 @@
 
 int main(int argc, char **argv) {
 
-  int winner, keyPressed;
-
   /* Start ncurses */
   initscr();
   cbreak(); // default behavior
@@ -34,16 +32,17 @@ int main(int argc, char **argv) {
   WINDOW *infowin = newwin(2, maxx - 12, maxy - 2, 5);
   refresh();
 
-  int state[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int state[] = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
   gameBoard.drawBoard(state, &gameBoard, gamewin, 18, 33);
 
   Game game = Game();
 
   int mytoken = (rand() % 2) + 1;
 
-  int currentToken = 1;
+  int currentToken = 0;
+  int winner = -1;
 
-  while (1) {
+  while (winner == -1) {
 
     int input = mvwgetch(inputwin, 1, 1);
 
@@ -51,12 +50,32 @@ int main(int argc, char **argv) {
       mvwprintw(infowin, 0, 0, "-> Invalid Input!");
       wrefresh(infowin);
     }
-    state[(input - '0') - 1] = currentToken;
-    currentToken = (currentToken % 2) + 1;
+    int stateIndex = (input - '0') - 1;
+
+    if (state[stateIndex] != -1) {
+      mvwprintw(infowin, 0, 0, "-> That box is already filled!");
+      wrefresh(infowin);
+    } else {
+      state[stateIndex] = currentToken;
+      currentToken = !currentToken;
+      werase(infowin);
+      wrefresh(infowin);
+    }
 
     gameBoard.drawBoard(state, &gameBoard, gamewin, 18, 33);
+
+    winner = game.checkWinner(state);
   }
-  return 0;
+
+  char winnerStr;
+  if (winner == 0)
+    winnerStr = 'X';
+  if (winner == 1)
+    winnerStr = 'O';
+
+  mvwprintw(infowin, 0, 0, "The winner is %c! Press any key to exit...",
+            winnerStr);
+  wrefresh(infowin);
 
   getch();
   endwin();

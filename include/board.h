@@ -11,6 +11,9 @@ public:
 
   int maxy;
   int maxx;
+
+  int state[9];
+
   Board(int maxy, int maxx);
 
   // void drawChip(int *dest, char type, Board *gameBoard);

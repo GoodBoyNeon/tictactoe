@@ -7,6 +7,7 @@ public:
   Game();
   int state[9];
   int game(Board *gamestate);
+  int checkWinner(int state[9]);
 
 private:
 };
