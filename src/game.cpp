@@ -26,7 +26,7 @@ vector<int> getAvailableMoves(vector<int> state) {
 }
 
 int Game::getMyMove(int myToken) {
-  int result = minimax(this->state, true, *this, 3, 3);
+  int result = minimax(this->state, myToken, *this, 3, 3);
   return result;
 }
 
@@ -103,7 +103,7 @@ void Game::play() {
 int checkWinner(std::vector<int> state) {
 
   // check for rows
-  for (int i = 0; i < 3; i += 3) {
+  for (int i = 0; i < 7; i += 3) {
     if ((state[i] == state[1 + i]) && (state[i] == state[2 + i])) {
       if (state[i] == -1)
         continue;
