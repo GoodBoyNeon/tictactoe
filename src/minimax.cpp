@@ -9,6 +9,7 @@ int minimax(std::vector<int> gamestate, bool max, Game &game, int depth,
   int bestScore;
   int winner = checkWinner(gamestate);
 
+  std::vector<int> bestMove = {0};
   if (depth == 0 || winner != -2) {
     if (winner == 1) {
       return 1;
@@ -24,8 +25,6 @@ int minimax(std::vector<int> gamestate, bool max, Game &game, int depth,
   if (max) {
     int maxEval = -10000;
     std::vector<int> possibleMoves = getAvailableMoves(gamestate);
-
-    std::vector<int> bestMove = {0};
 
     for (int i = 0; i < possibleMoves.size(); i++) {
       std::vector<int> newState = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
@@ -69,11 +68,30 @@ int minimax(std::vector<int> gamestate, bool max, Game &game, int depth,
       newState[possibleMoves[i]] = 0;
 
       int eval = minimax(newState, true, game, depth - 1, initialDepth);
+
+      if (initialDepth == depth) {
+
+        if (eval < minEval) {
+          bestMove.clear();
+          bestMove.push_back(i);
+        } else if (eval == minEval) {
+          bestMove.push_back(i);
+        }
+      }
       minEval = std::min(minEval, eval);
     }
 
+    std::vector<int> pMoves = getAvailableMoves(gamestate);
+
+    if (initialDepth == depth) {
+
+      int move = possibleMoves[bestMove[0]];
+
+      game.state[move] = 0;
+    }
     return minEval;
   }
+
   return 0;
   // if (max) {
   //   bestScore = -1000;

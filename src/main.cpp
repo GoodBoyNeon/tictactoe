@@ -6,10 +6,15 @@ using namespace std;
 int main(int argc, char **argv) {
 
   /* Start ncurses */
-  vector<int> startingState = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
-  Game game = Game(startingState);
+  initscr();
+  cbreak();
 
-  game.play();
+  while (1) {
+    vector<int> startingState = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
+    Game game = Game(startingState);
+    game.play();
+  }
+  endwin();
 
   return 0;
 }

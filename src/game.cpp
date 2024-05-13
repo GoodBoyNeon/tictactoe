@@ -1,5 +1,8 @@
 #include "../include/game.h"
 #include "../include/minimax.h"
+#include <cstdlib>
+#include <ctime>
+#include <ncurses.h>
 #include <string>
 #include <vector>
 using namespace std;
@@ -31,9 +34,6 @@ int Game::getMyMove(int myToken) {
 }
 
 void Game::play() {
-  initscr();
-  cbreak();
-
   int maxy, maxx;
   getmaxyx(stdscr, maxy, maxx);
 
@@ -48,10 +48,18 @@ void Game::play() {
   Board gameBoard = Board(maxy, maxx);
   gameBoard.drawBoard(state, &gameBoard, gamewin, 18, 33);
 
-  // int myToken = (rand() % 2);
-  int myToken = 1;
+  srand(time(nullptr));
+  int myToken = rand() % 2;
+
   int currentToken = 0;
   int winner = -2;
+
+  if (myToken == 0) {
+    mvwprintw(infowin, 0, 0, "I go first!");
+  } else {
+    mvwprintw(infowin, 0, 0, "You go first!");
+  }
+  wrefresh(infowin);
 
   while (winner == -2 && hasEmptySquares(state)) {
 
@@ -93,11 +101,11 @@ void Game::play() {
   else if (winner == -1)
     gameStatus = "It's a Draw!";
 
-  mvwprintw(infowin, 0, 0, "%s Press any key to exit...", gameStatus.c_str());
+  mvwprintw(infowin, 0, 0,
+            "%s Press any key to play again, or press Ctrl+C to exit...",
+            gameStatus.c_str());
   wrefresh(infowin);
-
   getch();
-  endwin();
 }
 
 int checkWinner(std::vector<int> state) {
