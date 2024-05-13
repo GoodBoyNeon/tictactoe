@@ -2,14 +2,19 @@
 #define GAME_H
 
 #include "../include/board.h"
+#include <vector>
 class Game {
 public:
-  Game();
-  int state[9];
-  int game(Board *gamestate);
-  int checkWinner(int state[9]);
+  Game(std::vector<int> &inputState);
+  std::vector<int> state;
+  void play();
+  int getMyMove(int myToken);
 
 private:
 };
+
+std::vector<int> getAvailableMoves(std::vector<int> state);
+bool hasEmptySquares(std::vector<int> state);
+int checkWinner(std::vector<int> state);
 
 #endif // !GAME_H

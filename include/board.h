@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include <ncurses.h>
+#include <vector>
 class Board {
 public:
   //
@@ -17,14 +18,12 @@ public:
   Board(int maxy, int maxx);
 
   // void drawChip(int *dest, char type, Board *gameBoard);
-  void drawBoard(int gamestate[9], Board *gameBoard, WINDOW *win, int leny,
-                 int lenx);
+  void drawBoard(std::vector<int> gamestate, Board *gameBoard, WINDOW *win,
+                 int leny, int lenx);
 
 private:
   int lenx;
   int leny;
 };
-
-int putChip(int *dest, Board *gameBoard);
 
 #endif // !BOARD_H

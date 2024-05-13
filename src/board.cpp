@@ -39,8 +39,8 @@ string tokenize(const std::vector<int> &arr) {
   return out;
 }
 
-void Board::drawBoard(int gamestate[], Board *gameBoard, WINDOW *win, int leny,
-                      int lenx) {
+void Board::drawBoard(std::vector<int> gamestate, Board *gameBoard, WINDOW *win,
+                      int leny, int lenx) {
 
   int line = 7, col = 12;
   int centering_factor = maxx / 2 - (36 / 2);
