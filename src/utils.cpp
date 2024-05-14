@@ -1,5 +1,14 @@
 #include "../include/utils.h"
+#include <cstdlib>
+#include <ctime>
 #include <ncurses.h>
 
-#define XMAX 33
-#define YMAX 18
+template <typename T> T randomVec(const std::vector<T> &vec) {
+  srand(time(nullptr));
+
+  int randIndex = rand() % vec.size();
+
+  return vec[randIndex];
+}
+
+template int randomVec<int>(const std::vector<int> &vec);

@@ -29,7 +29,8 @@ vector<int> getAvailableMoves(vector<int> state) {
 }
 
 int Game::getMyMove(int myToken) {
-  int result = minimax(this->state, myToken, *this, 3, 3);
+  int depth = 9;
+  int result = minimax(this->state, myToken, *this, depth, depth);
   return result;
 }
 
